@@ -13,6 +13,8 @@ Run the script by `./create.sh` and follow the steps provided in the script.
 You can learn more about vboxmanage commands from
 https://www.virtualbox.org/manual/ch08.html#vboxmanage-intro
 
+A decent chunk of the script was adopted from https://www.andreafortuna.org/2019/10/24/how-to-create-a-virtualbox-vm-from-command-line/.
+
 ## Known Issues
 
 1. If you are behind a proxy server, make sure the host server can access to the
