@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Install virtualbox if not installed
-idpkg -s virtualbox &> /dev/null
+dpkg -s virtualbox &> /dev/null
 
 if [ $? -eq 0 ]; then
   echo "VirtualBox is installed!"
@@ -17,9 +17,9 @@ else
      sudo tee -a /etc/apt/sources.list.d/virtualbox.list
   sudo apt update
   sudo apt install virtualbox-6.1
-  wget https://download.virtualbox.org/virtualbox/6.1.8/Oracle_VM_VirtualBox_Extension_Pack-6.1.8.vbox-extpack
-  sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-6.1.8.vbox-extpack
-  rm Oracle_VM_VirtualBox_Extension_Pack-6.1.8.vbox-extpack
+  wget https://download.virtualbox.org/virtualbox/6.1.38/Oracle_VM_VirtualBox_Extension_Pack-6.1.38.vbox-extpack
+  sudo VBoxManage extpack install Oracle_VM_VirtualBox_Extension_Pack-6.1.38.vbox-extpack
+  rm Oracle_VM_VirtualBox_Extension_Pack-6.1.38.vbox-extpack
 fi
 
 
@@ -38,7 +38,7 @@ if [[ $default = "n" ]] || [[ $default == "N" ]]; then
 else
   ostype='ubuntu_64'
   deployment='server'
-  url=https://releases.ubuntu.com/focal/ubuntu-20.04.1-live-server-amd64.iso
+  url=https://releases.ubuntu.com/focal/ubuntu-20.04.5-live-server-amd64.iso
 fi
 
 iso=${ostype}_${deployment}.iso
@@ -66,7 +66,7 @@ VBoxManage modifyvm $MACHINENAME --boot1 dvd --boot2 disk --boot3 none --boot4 n
 read -p "RDP port number (do not use an already used port): " port
 IP=$(hostname -I)
 VBoxManage modifyvm $MACHINENAME --vrde on --vrdeaddress $IP --vrdemulticon on --vrdeport $port
-
+VBoxManage modifyvm $MACHINENAME --natpf1 "ssh, 0.0.0.0, 5001, 10.0.2.15, 22"
 echo "Machine is starting, please open $IP:$port on any RDP tool to complete setup. Ctrl+C to close the VM."
 echo "You can start the VM later by vboxmanage startvm $MACHINENAME --type headless or vboxheadless --startvm $MACHINENAME."
 echo "You can powerdown a VM from CLI by vboxmanage --controlvm $MACHINENAME --poweroff"
